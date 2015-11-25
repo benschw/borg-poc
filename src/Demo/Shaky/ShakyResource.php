@@ -16,14 +16,17 @@ use Fliglio\Http\ResponseWriter;
 use Fliglio\Http\Http;
 
 use Fliglio\Borg\Scheduler;
+use Fliglio\Borg\Chan\ChanFactory;
 
 class ShakyResource {
 
 	private $go;
+	private $ch;
 	private $http;
 
-	public function __construct(Scheduler $go) {
+	public function __construct(Scheduler $go, ChanFactory $ch) {
 		$this->go = $go;
+		$this->ch = $ch;
 	}
 
 	public function test() {
@@ -38,8 +41,8 @@ class ShakyResource {
 	public function getWordCount(Entity $entity) {
 		$links = $entity->bind(Links::getClass());
 
-		$words = $this->go->makeChan(Primitive::getClass());
-		$exits = $this->go->makeChan(Primitive::getClass());
+		$words = $this->ch->makeChan(Primitive::getClass());
+		$exits = $this->ch->makeChan(Primitive::getClass());
 
 		foreach ($links as $link) {
 			$this->go->getWordsForLink($link, $words, $exits);
