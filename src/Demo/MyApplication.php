@@ -1,6 +1,6 @@
 <?php
 
-namespace MyApp;
+namespace Demo;
 
 use Fliglio\Fli\DefaultResolverApp;
 use Fliglio\Fli\ResolverAppMux;
@@ -10,7 +10,7 @@ class MyApplication extends ResolverAppMux {
 		parent::__construct();
 
 		$fli = new DefaultResolverApp();
-		$fli->configure(new RestExampleConfiguration());
+		$fli->configure(new DemoConfiguration());
 
 		$this->addApp($fli);
 	}

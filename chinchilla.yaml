@@ -1,0 +1,20 @@
+connection:
+  user: guest
+  password: guest
+  host: localhost
+  port: 5672
+  vhost: /
+
+endpoints:
+  -
+    name: Topic
+    servicehost: http://localhost:80
+    uri: /borg
+    method: POST
+    consumerstrategy: topic
+    queueconfig:
+      prefetch: 5
+      topicname: "#"
+      queuename: borg
+      exchangename: borg
+

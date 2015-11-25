@@ -1,5 +1,5 @@
 {
-	"name": "fliglio/app",
+	"name": "fliglio/borg-demo",
 	"description": "Demo Application for Fliglio Framework",
 	"type": "project",
 	"license": "GPL-3.0+",
@@ -14,12 +14,14 @@
 		"fliglio/routing": "dev-master",
 		"fliglio/http":    "dev-master",
 		"fliglio/web":     "dev-master",
+		"fliglio/borg":     "dev-master",
+		"videlalvaro/php-amqplib": "2.5.*",
         "symfony/validator": "2.*",
         "doctrine/annotations": "1.*",
         "doctrine/cache": "1.*"
 	},
 	"minimum-stability" : "dev",
     "autoload": {
-        "psr-0": { "MyApp\\": "src/" }
+        "psr-0": { "Demo\\": "src/" }
     }
 }
