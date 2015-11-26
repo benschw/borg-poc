@@ -6,8 +6,10 @@ use Fliglio\Http\Http;
 use Fliglio\Routing\Type\RouteBuilder;
 use Fliglio\Fli\Configuration\DefaultConfiguration;
 use Fliglio\Borg\RabbitDriver;
-use Fliglio\Borg\Scheduler;
+use Fliglio\Borg\Collective;
 use Fliglio\Borg\Chan\ChanFactory;
+use Fliglio\Borg\Routing\BorgRouteBuilder;
+
 use Demo\Shaky\ShakyResource;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 
@@ -18,10 +20,13 @@ class DemoConfiguration extends DefaultConfiguration {
 		$conn = new AMQPStreamConnection("192.168.0.109", 5672, "guest", "guest", "/");
 
 		$driver = new RabbitDriver($conn);
-		$go = new Scheduler("Fliglio\Borg\ShakyResource", $driver);
-		$ch = new ChanFactory("Fliglio\Borg\ShakyResource", $driver);
+		$coll = new Collective($driver);
+		$ch = new ChanFactory($driver);
 		
-		$resource = new ShakyResource($go, $ch);
+		$resource = new ShakyResource();
+		$resource->setCollective($coll);
+		$resource->setChanFactory($ch);
+
 		return [
 			RouteBuilder::get()
 				->uri('/words')
@@ -31,6 +36,11 @@ class DemoConfiguration extends DefaultConfiguration {
 			RouteBuilder::get()
 				->uri('/test')
 				->resource($resource, 'test')
+				->method(Http::METHOD_GET)
+				->build(),
+			BorgRouteBuilder::get()
+				->uri('/borg')
+				->collective($coll)
 				->method(Http::METHOD_GET)
 				->build(),
 		];

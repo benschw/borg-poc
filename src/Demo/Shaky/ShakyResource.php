@@ -15,22 +15,18 @@ use MyApp\RestExample\FooApi\FooApiMapper;
 use Fliglio\Http\ResponseWriter;
 use Fliglio\Http\Http;
 
-use Fliglio\Borg\Scheduler;
-use Fliglio\Borg\Chan\ChanFactory;
+use Fliglio\Borg\BorgImplant;
 
 class ShakyResource {
+	use BorgImplant;
 
-	private $go;
-	private $ch;
 	private $http;
 
-	public function __construct(Scheduler $go, ChanFactory $ch) {
-		$this->go = $go;
-		$this->ch = $ch;
+	public function __construct() {
 	}
 
 	public function test() {
-		$this->go->doTest();
+		$this->coll()->doTest();
 	}
 
 	public function doTest() {
