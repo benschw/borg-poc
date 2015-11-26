@@ -9,8 +9,6 @@ use Fliglio\Web\GetParam;
 
 use Fliglio\Fltk\View;
 
-use MyApp\RestExample\FooApi\FooApi;
-use MyApp\RestExample\FooApi\FooApiMapper;
 
 use Fliglio\Http\ResponseWriter;
 use Fliglio\Http\Http;
@@ -30,7 +28,7 @@ class ShakyResource {
 	}
 
 	public function doTest() {
-		file_put_contents("/tmp/testing", "hello world");
+		return "hello";
 	}
 
 

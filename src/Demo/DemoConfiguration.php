@@ -41,7 +41,7 @@ class DemoConfiguration extends DefaultConfiguration {
 			BorgRouteBuilder::get()
 				->uri('/borg')
 				->collective($coll)
-				->method(Http::METHOD_GET)
+				->method(Http::METHOD_POST)
 				->build(),
 		];
 	}
