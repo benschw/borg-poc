@@ -16,15 +16,15 @@ class DemoConfiguration extends DefaultConfiguration {
 
 	public function getRoutes() {
 		
+		$resource = new ShakyResource();
+		
 		$conn = new AMQPStreamConnection("192.168.0.109", 5672, "guest", "guest", "/");
 
 		$driver = new RabbitDriver($conn);
-		$coll = new Collective($driver);
-		$ch = new ChanFactory($driver);
-		
-		$resource = new ShakyResource();
-		$resource->setCollective($coll);
-		$resource->setChanFactory($ch);
+
+		$coll = new Collective($driver, "borg-demo");
+		$coll->assimilate($resource);
+
 
 		return [
 			RouteBuilder::get()

@@ -9,7 +9,6 @@ use Fliglio\Web\GetParam;
 
 use Fliglio\Fltk\View;
 
-
 use Fliglio\Http\ResponseWriter;
 use Fliglio\Http\Http;
 
@@ -28,8 +27,9 @@ class ShakyResource {
 		return file_get_contents("/tmp/test");
 	}
 
-	public function test() {
-		$this->coll()->doTest(new Primitive("hello world"));
+	public function test(GetParam $msg) {
+		//$words = $this->ch->makeChan(Primitive::getClass());
+		$this->coll()->doTest(new Primitive($msg->get()));
 	}
 
 	public function doTest(Primitive $msg) {
