@@ -22,10 +22,9 @@ class DemoConfiguration extends DefaultConfiguration {
 		$conn = new AMQPStreamConnection("192.168.0.109", 5672, "guest", "guest", "/");
 
 		$driver = new AmqpCollectiveDriver($conn);
-		$chanFactoryDriver = new AmqpChanDriverFactory($conn);
 
 		$coll = new Collective($driver, "borg-demo");
-		$coll->assimilate($resource, $chanFactoryDriver);
+		$coll->assimilate($resource);
 		
 
 		return [

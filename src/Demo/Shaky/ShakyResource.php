@@ -28,7 +28,7 @@ class ShakyResource {
 	}
 
 	public function test(GetParam $msg) {
-		//$words = $this->ch->makeChan(Primitive::getClass());
+		//$words = $this->coll()->mkchan(Primitive::getClass());
 		$this->coll()->doTest(new Primitive($msg->get()));
 	}
 
