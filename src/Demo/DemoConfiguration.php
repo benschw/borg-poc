@@ -8,7 +8,6 @@ use Fliglio\Fli\Configuration\DefaultConfiguration;
 use Fliglio\Borg\RabbitDriver;
 use Fliglio\Borg\Collective;
 use Fliglio\Borg\Chan\ChanFactory;
-use Fliglio\Borg\Routing\BorgRouteBuilder;
 
 use Demo\Shaky\ShakyResource;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
@@ -29,18 +28,18 @@ class DemoConfiguration extends DefaultConfiguration {
 
 		return [
 			RouteBuilder::get()
-				->uri('/words')
-				->resource($resource, 'getWordCount')
-				->method(Http::METHOD_POST)
+				->uri('/read')
+				->resource($resource, 'read')
+				->method(Http::METHOD_GET)
 				->build(),
 			RouteBuilder::get()
 				->uri('/test')
 				->resource($resource, 'test')
 				->method(Http::METHOD_GET)
 				->build(),
-			BorgRouteBuilder::get()
+			RouteBuilder::get()
 				->uri('/borg')
-				->collective($coll)
+				->resource($coll, "mux")
 				->method(Http::METHOD_POST)
 				->build(),
 		];

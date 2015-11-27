@@ -14,6 +14,7 @@ use Fliglio\Http\ResponseWriter;
 use Fliglio\Http\Http;
 
 use Fliglio\Borg\BorgImplant;
+use Fliglio\Borg\Type\Primitive;
 
 class ShakyResource {
 	use BorgImplant;
@@ -23,12 +24,22 @@ class ShakyResource {
 	public function __construct() {
 	}
 
-	public function test() {
-		$this->coll()->doTest();
+	public function read() {
+		return file_get_contents("/tmp/test");
 	}
 
-	public function doTest() {
-		return "hello";
+	public function test() {
+		$this->coll()->doTest(new Primitive("hello world"));
+	}
+
+	public function doTest(Primitive $msg) {
+
+		//$this->coll()->doTest(new Primitive("foo"));
+		
+		file_put_contents("/tmp/test", $msg->value());
+
+		return $msg->value();
+
 	}
 
 
