@@ -5,7 +5,8 @@ namespace Demo;
 use Fliglio\Http\Http;
 use Fliglio\Routing\Type\RouteBuilder;
 use Fliglio\Fli\Configuration\DefaultConfiguration;
-use Fliglio\Borg\RabbitDriver;
+use Fliglio\Borg\Amqp\AmqpCollectiveDriver;
+use Fliglio\Borg\Amqp\AmqpChanDriverFactory;
 use Fliglio\Borg\Collective;
 use Fliglio\Borg\Chan\ChanFactory;
 
@@ -20,11 +21,12 @@ class DemoConfiguration extends DefaultConfiguration {
 		
 		$conn = new AMQPStreamConnection("192.168.0.109", 5672, "guest", "guest", "/");
 
-		$driver = new RabbitDriver($conn);
+		$driver = new AmqpCollectiveDriver($conn);
+		$chanFactoryDriver = new AmqpChanDriverFactory($conn);
 
 		$coll = new Collective($driver, "borg-demo");
-		$coll->assimilate($resource);
-
+		$coll->assimilate($resource, $chanFactoryDriver);
+		
 
 		return [
 			RouteBuilder::get()
