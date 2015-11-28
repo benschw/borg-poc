@@ -14,6 +14,7 @@ use Fliglio\Http\Http;
 
 use Fliglio\Borg\BorgImplant;
 use Fliglio\Borg\Type\Primitive;
+use Fliglio\Borg\Chan\Chan;
 
 class ShakyResource {
 	use BorgImplant;
@@ -28,12 +29,23 @@ class ShakyResource {
 	}
 
 	public function test(GetParam $msg) {
-		//$words = $this->coll()->mkchan(Primitive::getClass());
-		$this->coll()->doTest(new Primitive($msg->get()));
+		$words = $this->coll()->mkchan(Primitive::getClass());
+
+		$this->coll()->doTest(new Primitive($msg->get()), $words);
+		
+		while (true) {
+			list($chId, $w) = $words->get();
+			if (!is_null($chId)) {
+				return $w->value();
+			}
+		}
+		$words->close();
 	}
 
-	public function doTest(Primitive $msg) {
-
+	public function doTest(Primitive $msg, Chan $words) {
+		$words->add(new Primitive($msg->value() . " reply"));
+		return;
+		
 		//$this->coll()->doTest(new Primitive("foo"));
 		
 		file_put_contents("/tmp/test", $msg->value());
