@@ -31,24 +31,22 @@ class ShakyResource {
 	public function test(GetParam $msg) {
 		$words = $this->coll()->mkchan(Primitive::getClass());
 
-		$this->coll()->doTest(new Primitive($msg->get()), $words);
-		
-		list($chId, $w) = $words->get();
+		for ($i = 0; $i < 10; $i++) {
+			$this->coll()->doTest(new Primitive($msg->get()." ".$i), $words);
+		}
+
+		$replies = [];
+		for ($i = 0; $i < 10; $i++) {
+			list($chId, $w) = $words->get();
+			$replies[] = $w->value();
+		}
 		$words->close();
-		
-		return $w->value();
+
+		return $replies;
 	}
 
 	public function doTest(Primitive $msg, Chan $words) {
 		$words->add(new Primitive($msg->value() . " reply"));
-		return;
-		
-		//$this->coll()->doTest(new Primitive("foo"));
-		
-		file_put_contents("/tmp/test", $msg->value());
-
-		return $msg->value();
-
 	}
 
 
