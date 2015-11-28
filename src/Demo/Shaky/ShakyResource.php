@@ -33,13 +33,10 @@ class ShakyResource {
 
 		$this->coll()->doTest(new Primitive($msg->get()), $words);
 		
-		while (true) {
-			list($chId, $w) = $words->get();
-			if (!is_null($chId)) {
-				return $w->value();
-			}
-		}
+		list($chId, $w) = $words->get();
 		$words->close();
+		
+		return $w->value();
 	}
 
 	public function doTest(Primitive $msg, Chan $words) {
