@@ -1,6 +1,10 @@
-# fliglio-app
+# borg-demo
 
-## Install
+## Install & Test
+
+	vagrant up
+	curl 172.20.20.10/test?message=hello
+
 
 ### application scaffolding
 	

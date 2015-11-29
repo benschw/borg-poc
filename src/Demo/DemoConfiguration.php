@@ -19,7 +19,7 @@ class DemoConfiguration extends DefaultConfiguration {
 		
 		$resource = new ShakyResource();
 		
-		$conn = new AMQPStreamConnection("192.168.0.109", 5672, "guest", "guest", "/");
+		$conn = new AMQPStreamConnection("localhost", 5672, "guest", "guest", "/");
 
 		$driver = new AmqpCollectiveDriver($conn);
 
