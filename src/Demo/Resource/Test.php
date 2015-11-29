@@ -19,24 +19,29 @@ use Fliglio\Borg\Chan\Chan;
 class Test {
 	use BorgImplant;
 
+	const NUM = 5;
+
 	public function test(GetParam $msg) {
-		$words = $this->coll()->mkchan(Primitive::getClass());
+		$replies = $this->coll()->mkchan(Primitive::getClass());
 
-		for ($i = 0; $i < 5; $i++) {
-			$this->coll()->doTest(new Primitive($msg->get()." ".$i), $words);
+		for ($i = 0; $i < self::NUM; $i++) {
+			$str = sprintf("%s %s", $msg->get(), $i);
+			$this->coll()->doTest(new Primitive($str), $replies);
 		}
 
-		$replies = [];
-		for ($i = 0; $i < 5; $i++) {
-			$replies[] = $words->get()->value();
+		$resp = [];
+		for ($i = 0; $i < self::NUM; $i++) {
+			$resp[] = $replies->get()->value();
 		}
-		$words->close();
 
-		return $replies;
+		$replies->close();
+
+		return $resp;
 	}
 
-	public function doTest(Primitive $msg, Chan $words) {
-		$words->add(new Primitive($msg->value() . " reply"));
+	public function doTest(Primitive $msg, Chan $replies) {
+		$reply = new Primitive($msg->value() . " reply");
+		$replies->add($reply);
 	}
 
 
