@@ -5,7 +5,7 @@ namespace Demo;
 use Fliglio\Fli\DefaultResolverApp;
 use Fliglio\Fli\ResolverAppMux;
 
-class MyApplication extends ResolverAppMux {
+class DemoApplication extends ResolverAppMux {
 	public function __construct() {
 		parent::__construct();
 

@@ -10,14 +10,15 @@ use Fliglio\Borg\Amqp\AmqpChanDriverFactory;
 use Fliglio\Borg\Collective;
 use Fliglio\Borg\Chan\ChanFactory;
 
-use Demo\Shaky\ShakyResource;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
+
+use Demo\Resource\Test;
 
 class DemoConfiguration extends DefaultConfiguration {
 
 	public function getRoutes() {
 		
-		$resource = new ShakyResource();
+		$resource = new Test();
 		
 		$conn = new AMQPStreamConnection("localhost", 5672, "guest", "guest", "/");
 
