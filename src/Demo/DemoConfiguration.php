@@ -10,6 +10,8 @@ use Fliglio\Borg\Amqp\AmqpChanDriverFactory;
 use Fliglio\Borg\Collective;
 use Fliglio\Borg\Chan\ChanFactory;
 
+use Fliglio\Consul\AddressProviderFactory;
+
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 
 use Demo\Resource\Test;
@@ -17,10 +19,13 @@ use Demo\Resource\Test;
 class DemoConfiguration extends DefaultConfiguration {
 
 	public function getRoutes() {
-		
+		$apFactory = new AddressProviderFactory();
+		$ap = $apFactory->createConsulAddressProvider('rabbitmq');
+		$add = $ap->getAddress();
+
 		$resource = new Test();
 		
-		$conn = new AMQPStreamConnection("localhost", 5672, "guest", "guest", "/");
+		$conn = new AMQPStreamConnection($add->getHost(), $add->getPort(), "guest", "guest", "/");
 
 		$driver = new AmqpCollectiveDriver($conn);
 
@@ -30,8 +35,8 @@ class DemoConfiguration extends DefaultConfiguration {
 
 		return [
 			RouteBuilder::get()
-				->uri('/read')
-				->resource($resource, 'read')
+				->uri('/prime')
+				->resource($resource, 'prime')
 				->method(Http::METHOD_GET)
 				->build(),
 			RouteBuilder::get()

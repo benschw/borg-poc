@@ -15,11 +15,57 @@ use Fliglio\Http\Http;
 use Fliglio\Borg\BorgImplant;
 use Fliglio\Borg\Type\Primitive;
 use Fliglio\Borg\Chan\Chan;
+use Fliglio\Borg\Chan\ChanReader;
 
 class Test {
 	use BorgImplant;
 
 	const NUM = 5;
+
+
+	public function prime(GetParam $limit) {
+
+		$exits = $this->coll()->mkchan(Primitive::getClass());
+		$primes = $this->coll()->mkchan(Primitive::getClass());
+
+		$exit = 0;
+		for ($i = 3; $i < $limit->get(); $i++) {
+			$exit++;
+			$this->coll()->isPrime($primes, $exits, new Primitive($i));
+		}
+
+		$results = [];
+
+		$reader = new ChanReader([$primes, $exits]);
+		while ($exit > 0) {
+			list($id, $d) = $reader->get();
+			switch ($id) {
+			case $primes->getId():
+				$results[] = $d->value();
+				break;
+			case $exits->getId():
+				$exit--;
+				break;
+			}
+		}
+
+		$primes->close();
+		$exits->close();
+		sort($results);
+		return $results;
+	}
+
+	public function isPrime(Chan $primes, Chan $exits, Primitive $num) {
+		for ($i = 2; $i < $num->value(); $i++) {
+			if ($num->value() % $i == 0) {
+				$exits->add(new Primitive(true));
+				return;
+			}
+		}
+		$primes->add(new Primitive($num->value()));
+		$exits->add(new Primitive(true));
+	}
+
 
 	public function test(GetParam $msg) {
 		$replies = $this->coll()->mkchan(Primitive::getClass());
