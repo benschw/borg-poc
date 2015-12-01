@@ -59,11 +59,16 @@ class Test {
 		for ($i = 2; $i < $num->value(); $i++) {
 			if ($num->value() % $i == 0) {
 				$exits->add(new Primitive(true));
+				$exits->close();
+				$primes->close();
 				return;
 			}
 		}
 		$primes->add(new Primitive($num->value()));
 		$exits->add(new Primitive(true));
+		
+		$primes->close();
+		$exits->close();
 	}
 
 
