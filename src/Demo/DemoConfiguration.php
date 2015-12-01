@@ -44,16 +44,20 @@ class DemoConfiguration extends DefaultConfiguration {
 				->resource($resource, 'dcread')
 				->method(Http::METHOD_GET)
 				->build(),
+					
 			RouteBuilder::get()
 				->uri('/prime')
 				->resource($resource, 'prime')
 				->method(Http::METHOD_GET)
 				->build(),
+					
 			RouteBuilder::get()
 				->uri('/test')
 				->resource($resource, 'test')
 				->method(Http::METHOD_GET)
 				->build(),
+
+			// router foir all borg collective calls
 			RouteBuilder::get()
 				->uri('/borg')
 				->resource($coll, "mux")
