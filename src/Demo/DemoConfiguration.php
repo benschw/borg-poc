@@ -29,11 +29,21 @@ class DemoConfiguration extends DefaultConfiguration {
 
 		$driver = new AmqpCollectiveDriver($conn);
 
-		$coll = new Collective($driver, "borg-demo");
+		$coll = new Collective($driver, "borg-demo", "dc1");
 		$coll->assimilate($resource);
 		
 
 		return [
+			RouteBuilder::get()
+				->uri('/dctest')
+				->resource($resource, 'dctest')
+				->method(Http::METHOD_GET)
+				->build(),
+			RouteBuilder::get()
+				->uri('/dcread')
+				->resource($resource, 'dcread')
+				->method(Http::METHOD_GET)
+				->build(),
 			RouteBuilder::get()
 				->uri('/prime')
 				->resource($resource, 'prime')

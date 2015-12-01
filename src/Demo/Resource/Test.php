@@ -22,6 +22,17 @@ class Test {
 
 	const NUM = 5;
 
+	public function dcread() {
+		return file_get_contents("/tmp/test");
+	}
+
+	public function dctest(GetParam $msg) {
+		$this->az("dc2")->write(new Primitive($msg->get()));
+	}
+
+	public function write(Primitive $msg) {
+		file_put_contents("/tmp/test", $msg->value());
+	}
 
 	public function prime(GetParam $limit) {
 
