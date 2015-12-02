@@ -19,13 +19,24 @@ use Demo\Resource\Test;
 class DemoConfiguration extends DefaultConfiguration {
 
 	public function getRoutes() {
-		$apFactory = new AddressProviderFactory();
-		$ap = $apFactory->createConsulAddressProvider('rabbitmq');
-		$add = $ap->getAddress();
 
-		$resource = new Test();
+
+		$apFactory = new AddressProviderFactory();
+		$rabbitAp = $apFactory->createConsulAddressProvider('rabbitmq');
+		$mysqlAp = $apFactory->createConsulAddressProvider('mysql');
+		$rAdd = $rabbitAp->getAddress();
+		$mAdd = $mysqlAp->getAddress();
+
 		
-		$conn = new AMQPStreamConnection($add->getHost(), $add->getPort(), "guest", "guest", "/");
+		$conn = new AMQPStreamConnection($rAdd->getHost(), $rAdd->getPort(), "guest", "guest", "/");
+
+		$dsn = sprintf("mysql:host=%s;dbname=borg", $mAdd->getHost());
+		$options = [\PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'];
+		$db = new \PDO($dsn, 'borg', 'changeme', $options);
+		$db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+
+		$resource = new Test($db);
+
 
 		$driver = new AmqpCollectiveDriver($conn);
 

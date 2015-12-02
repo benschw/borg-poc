@@ -21,10 +21,21 @@ class Test {
 	use BorgImplant;
 
 	const NUM = 5;
+	
+	private $db;
+
+	public function __construct(\PDO $db) {
+		$this->db = $db;
+	}
 
 	public function dcread() {
 		error_log(__METHOD__);
-		return file_get_contents("/tmp/test");
+		$stmt = $this->db->prepare("SELECT `name` FROM ThreatReport WHERE id = 1");
+		$stmt->execute();
+
+		$data = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+		return $data;
 	}
 
 	public function dctest(GetParam $msg) {
@@ -34,7 +45,9 @@ class Test {
 
 	public function write(Primitive $msg) {
 		error_log(__METHOD__);
-		file_put_contents("/tmp/test", $msg->value());
+
+		$stmt = $this->db->prepare("UPDATE ThreatReport SET `name` = :name WHERE id = 1");
+		$stmt->execute([":name" => $msg->value()]);
 	}
 
 	public function prime(GetParam $limit) {
