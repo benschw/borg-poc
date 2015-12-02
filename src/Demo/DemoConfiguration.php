@@ -29,7 +29,7 @@ class DemoConfiguration extends DefaultConfiguration {
 
 		$driver = new AmqpCollectiveDriver($conn);
 
-		$coll = new Collective($driver, "borg-demo", "dc1");
+		$coll = new Collective($driver, "borg-demo", $_SERVER['CUBE_DC']);
 		$coll->assimilate($resource);
 		
 

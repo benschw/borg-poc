@@ -23,21 +23,25 @@ class Test {
 	const NUM = 5;
 
 	public function dcread() {
+		error_log(__METHOD__);
 		return file_get_contents("/tmp/test");
 	}
 
 	public function dctest(GetParam $msg) {
-		$this->az("dc2")->write(new Primitive($msg->get()));
+		error_log(__METHOD__);
+		$this->cube()->write(new Primitive($msg->get()));
 	}
 
 	public function write(Primitive $msg) {
+		error_log(__METHOD__);
 		file_put_contents("/tmp/test", $msg->value());
 	}
 
 	public function prime(GetParam $limit) {
+		error_log(__METHOD__);
 
-		$exits = $this->coll()->mkchan(Primitive::getClass());
-		$primes = $this->coll()->mkchan(Primitive::getClass());
+		$exits = $this->mkchan(Primitive::getClass());
+		$primes = $this->mkchan(Primitive::getClass());
 
 		$exit = 0;
 		for ($i = 3; $i < $limit->get(); $i++) {
@@ -67,6 +71,7 @@ class Test {
 	}
 
 	public function isPrime(Chan $primes, Chan $exits, Primitive $num) {
+		error_log(__METHOD__);
 		for ($i = 2; $i < $num->value(); $i++) {
 			if ($num->value() % $i == 0) {
 				$exits->add(new Primitive(true));
@@ -84,7 +89,8 @@ class Test {
 
 
 	public function test(GetParam $msg) {
-		$replies = $this->coll()->mkchan(Primitive::getClass());
+		error_log(__METHOD__);
+		$replies = $this->mkchan(Primitive::getClass());
 
 		for ($i = 0; $i < self::NUM; $i++) {
 			$str = sprintf("%s %s", $msg->get(), $i);
@@ -102,6 +108,7 @@ class Test {
 	}
 
 	public function doTest(Primitive $msg, Chan $replies) {
+		error_log(__METHOD__);
 		$reply = new Primitive($msg->value() . " reply");
 		$replies->add($reply);
 	}
