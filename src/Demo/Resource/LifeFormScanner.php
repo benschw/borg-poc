@@ -16,16 +16,16 @@ use Fliglio\Borg\Type\Primitive;
 use Fliglio\Borg\Chan\Chan;
 use Fliglio\Borg\Chan\ChanReader;
 
-use Demo\Research\ScannerFactory;
+use Demo\Research\Scanner;
 use Demo\Db\ThreatReportDbm;
 
 class LifeFormScanner {
 	use BorgImplant;
 
-	private $fac;
+	private $scanner;
 
-	public function __construct(ScannerFactory $fac) {
-		$this->fac = $fac;
+	public function __construct(Scanner $scanner) {
+		$this->scanner = $scanner;
 	}
 
 	public function scan(Entity $entity) {
@@ -46,8 +46,7 @@ class LifeFormScanner {
 	}
 
 	public function assessThreat($name, Chan $ch) {
-		$scanner = $this->fac->create($name);
-		$threatLevel = $scanner->getThreatLevel();
+		$threatLevel = $this->scanner->getThreatLevel($name);
 		$ch->add($threatLevel);
 	}
 }

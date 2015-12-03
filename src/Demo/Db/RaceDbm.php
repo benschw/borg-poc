@@ -28,10 +28,13 @@ class RaceDbm {
 			$stmt = $this->db->prepare("INSERT INTO Race (`race`, `status`) VALUES (:race, :status)");
 		
 		}
-		return $stmt->execute([
+		$e = $stmt->execute([
 			":race"   => $race,
 			":status" => $status,
 		]);
+		if (!$e) {
+			throw new \Exception("problem");
+		}
 	}
 
 	public function delete($race) {

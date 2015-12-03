@@ -14,7 +14,7 @@ use Fliglio\Consul\AddressProviderFactory;
 
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 
-use Demo\Research\ScannerFactory;
+use Demo\Research\Scanner;
 use Demo\Db\RaceDbm;
 use Demo\Resource\LifeFormScanner;
 use Demo\Resource\GroupScanner;
@@ -43,12 +43,12 @@ class DemoConfiguration extends DefaultConfiguration {
 
 		// Resource Dependencies
 		$http = null;
-		$fac = new ScannerFactory($http);
+		$scanner = new Scanner($http);
 		$dbm = new RaceDbm($db);
 
 		// Resources
-		$ls = new LifeFormScanner($fac);
-		$gs = new GroupScanner($fac);
+		$ls = new LifeFormScanner($scanner);
+		$gs = new GroupScanner($scanner);
 		$as = new Assimilation($dbm);
 
 		// Borg

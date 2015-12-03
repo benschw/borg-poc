@@ -5,15 +5,13 @@ namespace Demo\Research;
 class Scanner{
 
 	private $http;
-	private $name;
 
-	public function __construct($http, $name) {
+	public function __construct($http) {
 		$this->http = $http;
-		$this->name;
 	}
 
 
-	public function getThreatLevel() {
+	public function getThreatLevel($name) {
 		return rand(1, 5);
 	}
 

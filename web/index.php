@@ -8,6 +8,10 @@ ini_set("display_errors" , 1);
 require_once __DIR__ . '/../vendor/autoload.php';
 
 
-$svc = new DemoApplication();
-$svc->run();
+try {
+	$svc = new DemoApplication();
+	$svc->run();
+} catch (\Exception $e) {
+	http_response_code(500);
+}
 
