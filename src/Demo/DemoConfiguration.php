@@ -57,7 +57,7 @@ class DemoConfiguration extends DefaultConfiguration {
 		$coll = new Collective($driver, "borg-demo", $_SERVER['CUBE_DC']);
 		$coll->assimilate($ls);
 		$coll->assimilate($gs);
-		$coll->assimilate($as);
+		$coll->assimilate($dbm);
 		
 
 		return [
@@ -77,17 +77,12 @@ class DemoConfiguration extends DefaultConfiguration {
 					
 			// Assimilation
 			RouteBuilder::get()
-				->uri('/assimilate/:race')
+				->uri('/race-status/:race')
 				->resource($as, 'assimilateRace')
-				->method(Http::METHOD_POST)
+				->method(Http::METHOD_PUT)
 				->build(),
 			RouteBuilder::get()
-				->uri('/assimilate/:race')
-				->resource($as, 'cancelAssimilation')
-				->method(Http::METHOD_DELETE)
-				->build(),
-			RouteBuilder::get()
-				->uri('/assimilate/:race')
+				->uri('/race-status/:race')
 				->resource($as, 'getRaceStatus')
 				->method(Http::METHOD_GET)
 				->build(),

@@ -2,8 +2,12 @@
 
 namespace Demo\Db;
 
+use Fliglio\Borg\BorgImplant;
+use Demo\Api\Race;
+
 class RaceDbm {
-	
+	use BorgImplant;
+
 	private $db;
 
 	public function __construct(\PDO $db) {
@@ -15,36 +19,28 @@ class RaceDbm {
 		$stmt = $this->db->prepare("SELECT `race`, `status` FROM Race WHERE race = :race");
 		$stmt->execute([":race" => $race]);
 
-		return $stmt->fetch(\PDO::FETCH_ASSOC);
+		$vo = $stmt->fetch(\PDO::FETCH_ASSOC);
+		return $vo;
+		return Race::unmarshal($vo);
 	}
 
-	public function set($race, $status = "assimilated") {
-		$found = $this->find($race);
+	public function save(Race $race) {
+		$this->cube()->recordSave($race);
+	}
+
+	public function recordSave(Race $race) {
+		$found = $this->find($race->getRace());
 
 		if ($found) {
 			$stmt = $this->db->prepare("UPDATE Race SET `status` = :status WHERE race = :race");
-		
 		} else {
 			$stmt = $this->db->prepare("INSERT INTO Race (`race`, `status`) VALUES (:race, :status)");
-		
 		}
-		$e = $stmt->execute([
-			":race"   => $race,
-			":status" => $status,
-		]);
-		if (!$e) {
-			throw new \Exception("problem");
-		}
-	}
-
-	public function delete($race) {
-		$stmt = $this->db->prepare("DELETE FROM Race WHERE race = :race");
-	
-		return $stmt->execute([
-			":race"   => $race,
+		$stmt->execute([
+			":race"   => $race->getRace(),
+			":status" => $race->getStatus(),
 		]);
 	}
-
 }
 
 

@@ -13,17 +13,13 @@ use Fliglio\Fltk\View;
 use Fliglio\Http\ResponseWriter;
 use Fliglio\Http\Http;
 
-use Fliglio\Borg\BorgImplant;
 use Fliglio\Borg\Type\Primitive;
-use Fliglio\Borg\Chan\Chan;
-use Fliglio\Borg\Chan\ChanReader;
 
-use Demo\Research\Research;
 use Demo\Db\RaceDbm;
+use Demo\Api\Race;
 
 // Manage Assimilation of a race
 class Assimilation {
-	use BorgImplant;
 
 	private $dbm;
 
@@ -36,20 +32,11 @@ class Assimilation {
 		return $this->dbm->find($race->get());
 	}
 	
-	// Assimilate a race
-	public function assimilateRace(PathParam $race) {
-		$this->cube()->recordAssimilationStatus($race->get());
-	}
-	public function recordAssimilationStatus($race) {
-		$this->dbm->set($race);
-	}
-	
-	// Cancel assimilation of a race
-	public function cancelAssimilation(PathParam $race) {
-		$this->cube()->recordAssimilationCancellation($race->get());
-	}
-	public function recordAssimilationCancellation($race) {
-		$this->dbm->delete($race);
+	// Update Race Assimilation Status
+	public function assimilateRace(PathParam $race, Entity $e) {
+		$r = $e->bind(Race::getClass());
+		$r->setRace($race->get());
+		$this->dbm->save($r);
 	}
 }
 
