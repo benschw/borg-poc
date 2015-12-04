@@ -33,7 +33,7 @@ class GroupScanner {
 	public function scan(Entity $entity) {
 		$names = $entity->bind(Primitive::getClass())->value();
 		
-		$ch = $this->mkChan(Primitive::getClass());
+		$ch = $this->mkChan();
 		
 		foreach ($names as $name) {
 			$this->coll()->assessThreat($name, $ch);

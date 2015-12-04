@@ -33,7 +33,7 @@ class LifeFormScanner {
 		
 		$assessment = [];
 		foreach ($names as $name) {
-			$ch = $this->mkChan(Primitive::getClass());
+			$ch = $this->mkChan();
 			$this->coll()->assessThreat($name, $ch);
 			$assessment[$name] = $ch;
 		}
