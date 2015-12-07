@@ -68,21 +68,21 @@ class DemoConfiguration extends DefaultConfiguration {
 				->method(Http::METHOD_POST)
 				->build(),
 					
-			// Race Scanner
+			// Group Scanner
 			RouteBuilder::get()
-				->uri('/race')
+				->uri('/group')
 				->resource($gs, 'scan')
 				->method(Http::METHOD_POST)
 				->build(),
 					
 			// Assimilation
 			RouteBuilder::get()
-				->uri('/race-status/:race')
+				->uri('/race/:race')
 				->resource($as, 'assimilateRace')
 				->method(Http::METHOD_PUT)
 				->build(),
 			RouteBuilder::get()
-				->uri('/race-status/:race')
+				->uri('/race/:race')
 				->resource($as, 'getRaceStatus')
 				->method(Http::METHOD_GET)
 				->build(),

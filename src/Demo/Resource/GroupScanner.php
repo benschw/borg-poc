@@ -56,7 +56,7 @@ class GroupScanner {
 		$sum = array_sum($results);
 		$len = count($results);
 		return [
-			'mean-threat-level'    => ceil($sum / $len),
+			'mean-threat-level'    => round($sum / $len),
 			'median-threat-level'  => $results[floor($len/2)],
 			'results' => $results,
 		];
