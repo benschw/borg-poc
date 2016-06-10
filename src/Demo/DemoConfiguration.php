@@ -18,7 +18,6 @@ use PhpAmqpLib\Connection\AMQPStreamConnection;
 
 use Demo\Db\RaceDbm;
 use Demo\Resource\DemoResource;
-use Demo\Resource\AdminResource;
 
 
 class DemoConfiguration extends DefaultConfiguration {
@@ -47,7 +46,6 @@ class DemoConfiguration extends DefaultConfiguration {
 
 		// Resources
 		$dr = new DemoResource();
-		$ar = new AdminResource();
 
 		// Borg
 		$driver  = new AmqpCollectiveDriver($rConn);
@@ -59,11 +57,6 @@ class DemoConfiguration extends DefaultConfiguration {
 		$coll->assimilate($dbm);
 		
 		return [
-			RouteBuilder::get()
-				->uri('/health')
-				->resource($ar, 'health')
-				->method(Http::METHOD_GET)
-				->build(),
 			RouteBuilder::get()
 				->uri('/pi')
 				->resource($dr, 'pi')
