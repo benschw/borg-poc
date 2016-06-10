@@ -1,0 +1,7 @@
+{
+	"driver": "fliglio",
+	"name": "borg",
+	"health": "/health",
+	"db": "borg"
+
+}

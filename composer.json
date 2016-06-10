@@ -16,13 +16,14 @@
 		"fliglio/web":     "dev-master",
 		"fliglio/consul":  "dev-master",
 		"fliglio/borg":    "dev-master",
-		"videlalvaro/php-amqplib": "2.5.*",
-        "symfony/validator": "2.*",
-        "doctrine/annotations": "1.*",
-        "doctrine/cache": "1.*"
+		"fliglio/chinchilla":    "dev-master",
+		"php-amqplib/php-amqplib" : "2.5.*",
+		"symfony/validator": "2.*",
+		"doctrine/annotations": "1.*",
+		"doctrine/cache": "1.*"
 	},
 	"minimum-stability" : "dev",
-    "autoload": {
-        "psr-0": { "Demo\\": "src/" }
+	"autoload": {
+		"psr-0": { "Demo\\": "src/" }
     }
 }

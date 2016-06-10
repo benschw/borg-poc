@@ -7,8 +7,8 @@ connection:
 
 endpoints:
   -
-    name: Topic
-    servicehost: http://localhost:80
+    name: BorgTopic
+    servicename: borg
     uri: /borg
     method: POST
     consumerstrategy: topic
